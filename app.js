@@ -21,17 +21,12 @@ app.get('/', (req, res) => {
         color: rgb(56, 8, 56);
       }
     </style>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <div>
       <h1>Wellcome To The</h1>
       <h1>Pipline App !</h1>
     </div>
     
   `);
-});
-
-app.get('/error', (req, res) => {
-  process.exit(1);
 });
 
 app.listen(8080);
