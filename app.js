@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
         height: 100%;
       }
       h1{
-        color: rgb(56, 8, 56);
+        color: red;
       }
     </style>
     <div>
       <h1>Wellcome To The</h1>
-      <h1>Pipline App :))</h1>
+      <h1>Pipline App!</h1>
     </div>
     
   `);
