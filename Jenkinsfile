@@ -4,7 +4,6 @@
         stage('Test') { 
             steps {
                 sh '''#!/bin/bash
-                    cd pipline1_simple_app;
                     echo "installing jest framework...";
                     if npm install --save-dev jest;then
                         echo "running jest testing...";
