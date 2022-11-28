@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
         height: 100%;
       }
       h1{
-        color: Green;
+        color: #314EE6;
       }
     </style>
     <div>
