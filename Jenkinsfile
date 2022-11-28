@@ -33,7 +33,7 @@
                         echo "'$container' does not exist." 2> /dev/null;
                     else 
                         docker stop $container;	
-                        docker container prune;
+                        docker container prune -f;
                     fi
 
                     echo "Running pipline1_project..."
@@ -57,7 +57,7 @@
                     else 
                         echo "Prometheus is already running we will make a simple refresh";
                         docker stop $container;
-                        docker container prune;
+                        docker container prune -f;
                     fi
 
                     echo "Running prometheus..."
@@ -73,7 +73,7 @@
                             else 
                                 echo "Grafana is already running we will make a simple refresh";
                                 docker stop $container;
-                                docker container prune;
+                                docker container prune -f;
                             fi
 
                             echo "Running Grafana..."
