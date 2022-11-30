@@ -99,7 +99,7 @@
              mail(body: 'All stages of your project have been successfully prepared and deployed.', subject: 'Project successfully deployed!', to: 'yahya.muhaned@gmail.com')
          }  
          failure {  
-            mail(body: "An error occurred during the ${env.JOB_NAME} phase", subject: "${env.JOB_NAME} stage Alert !!", to: 'yahya.muhaned@gmail.com') 
+            mail(body: "An error occurred during the ${STAGE_NAME} phase", subject: "${STAGE_NAME} stage Alert !!", to: 'yahya.muhaned@gmail.com') 
          }  
 
      }  
