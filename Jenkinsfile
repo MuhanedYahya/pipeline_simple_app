@@ -3,7 +3,9 @@
     stages {
         stage('Test') { 
             steps {
-                last_started = env.STAGE_NAME
+                script {
+                    last_started = env.STAGE_NAME
+                }
                 sh '''#!/bin/bash
                     echo "installing jest framework...";
                     if npm install --save-dev jest;then
@@ -16,7 +18,9 @@
         }
         stage('Build') { 
             steps {
-                last_started = env.STAGE_NAME
+                script {
+                    last_started = env.STAGE_NAME
+                }
                 sh '''#!/bin/bash
                     echo "building docker image...";
                     if docker build . -t pipline1_project;then
@@ -27,7 +31,9 @@
         }
         stage('Deploy') { 
             steps {
-                last_started = env.STAGE_NAME
+                script {
+                    last_started = env.STAGE_NAME
+                }
                 sh '''#!/bin/bash
                     container=pipline1_project;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
@@ -50,7 +56,9 @@
         }
         stage('Monitor') { 
             steps {
-                last_started = env.STAGE_NAME
+                script {
+                    last_started = env.STAGE_NAME
+                }
                 sh '''#!/bin/bash
                     container=prometheus;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
