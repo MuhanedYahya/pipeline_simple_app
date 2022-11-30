@@ -3,6 +3,7 @@
     stages {
         stage('Test') { 
             steps {
+                last_started = env.STAGE_NAME
                 sh '''#!/bin/bash
                     echo "installing jest framework...";
                     if npm install --save-dev jest;then
@@ -15,6 +16,7 @@
         }
         stage('Build') { 
             steps {
+                last_started = env.STAGE_NAME
                 sh '''#!/bin/bash
                     echo "building docker image...";
                     if docker build . -t pipline1_project;then
@@ -25,6 +27,7 @@
         }
         stage('Deploy') { 
             steps {
+                last_started = env.STAGE_NAME
                 sh '''#!/bin/bash
                     container=pipline1_project;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
@@ -47,6 +50,7 @@
         }
         stage('Monitor') { 
             steps {
+                last_started = env.STAGE_NAME
                 sh '''#!/bin/bash
                     container=prometheus;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
@@ -99,7 +103,7 @@
              mail(body: 'All stages of your project have been successfully prepared and deployed.', subject: 'Project successfully deployed!', to: 'yahya.muhaned@gmail.com')
          }  
          failure {  
-            mail(body: "An error occurred during the ${STAGE_NAME} phase", subject: "${STAGE_NAME} stage Alert !!", to: 'yahya.muhaned@gmail.com') 
+            mail(body: "An error occurred during the $last_started phase", subject: "$last_started stage Alert !!", to: 'yahya.muhaned@gmail.com') 
          }  
 
      }  
