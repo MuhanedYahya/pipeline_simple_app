@@ -70,7 +70,7 @@
                 // '''
                 sshagent(credentials : ['44.203.124.0']) {
                     sh '''
-                        ssh -tt ec2-user@44.203.124.0 -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest &&sudo docker stop pipline-app && docker container prune -f && sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
+                        ssh -tt ec2-user@44.203.124.0 -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest &&sudo docker stop pipline-app &&sudo docker container prune -f && sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
                     '''
                 }
                 
