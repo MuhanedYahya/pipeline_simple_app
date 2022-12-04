@@ -45,7 +45,7 @@
                 '''  
             }
         }
-        stage('Deploy on aws ec2') { 
+        stage('Deploy') { 
             steps {
                 script {
                     last_started = env.STAGE_NAME
