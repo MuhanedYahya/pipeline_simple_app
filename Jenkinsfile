@@ -21,12 +21,28 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
+                // sh '''#!/bin/bash
+                //     echo "building docker image...";
+                //     if docker build . -t pipline1_project;then
+                //         echo "image successfully created";
+                //     fi
+                // '''
                 sh '''#!/bin/bash
                     echo "building docker image...";
-                    if docker build . -t pipline1_project;then
-                        echo "image successfully created";
+                    if docker build . -t muhanedyahya/pipline-v1-app;then
+                        echo "image successfully created.";
+                        echo "pushing image to docker hub.....";
+                        if docker login -u muhanedyahya -p 'Myahya123!root';then
+                            if docker push muhanedyahya/pipline-v1-app;then
+                                echo "image pushed seccessfully.";
+                            else
+                                echo "error in pushing image!!! something went wrong";
+                            fi
+                        else 
+                            echo "cant login to docker hub!!!";
+                        fi
                     fi
-                ''' 
+                '''  
             }
         }
         stage('Deploy on aws ec2') { 
@@ -54,7 +70,7 @@
                 // '''
                 sshagent(credentials : ['44.203.124.0']) {
                     sh '''
-                        ssh -tt ec2-user@44.203.124.0 -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest && docker stop pipline-app && docker container prune -f&& sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
+                        ssh -tt ec2-user@44.203.124.0 -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest && docker stop pipline-app && docker container prune -f && sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
                     '''
                 }
                 
