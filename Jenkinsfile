@@ -29,29 +29,35 @@
                 ''' 
             }
         }
-        stage('Deploy') { 
+        stage('Deploy on aws ec2') { 
             steps {
                 script {
                     last_started = env.STAGE_NAME
                 }
-                sh '''#!/bin/bash
-                    container=pipline1_project;
-                    running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
+                // sh '''#!/bin/bash
+                //     container=pipline1_project;
+                //     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
-                    if [ $running -eq 1 ]; then
-                        echo "'$container' does not exist." 2> /dev/null;
-                    else 
-                        docker stop $container;	
-                        docker container prune -f;
-                    fi
+                //     if [ $running -eq 1 ]; then
+                //         echo "'$container' does not exist." 2> /dev/null;
+                //     else 
+                //         docker stop $container;	
+                //         docker container prune -f;
+                //     fi
 
-                    echo "Running pipline1_project..."
-                    if  docker run -d --name pipline1_project --rm -p 9000:8080 pipline1_project;then
-                        echo "Deployed on http://localhost:9000";
-                    else
-                        echo "Error in deploying pipline1_project";
-                    fi
-                ''' 
+                //     echo "Running pipline1_project..."
+                //     if  docker run -d --name pipline1_project --rm -p 9000:8080 pipline1_project;then
+                //         echo "Deployed on http://localhost:9000";
+                //     else
+                //         echo "Error in deploying pipline1_project";
+                //     fi
+                // '''
+                sshagent(credentials : ['44.203.124.0']) {
+                    sh '''
+                        ssh -tt ec2-user@44.203.124.0 -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest && docker stop pipline-app && docker container prune -f&& sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
+                    '''
+                }
+                
             }
         }
         stage('Monitor') { 
