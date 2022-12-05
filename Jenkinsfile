@@ -69,7 +69,7 @@
                 //     fi
                 // '''
                 sshagent(credentials : ['ec2-pem']) {
-                    sh '''ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no << ENDSSH
+                    sh '''ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no << EOF 
                         container=pipline-app;
                         running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
@@ -81,7 +81,6 @@
                             docker stop $container;
                             docker container prune -f;
                         fi
-                        ENDSSH
                     EOF'''
                 }
 
