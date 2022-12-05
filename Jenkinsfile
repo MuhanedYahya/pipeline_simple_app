@@ -1,23 +1,20 @@
  pipeline {
     agent any 
-      environment {
-    /*
-     define your command in variable
-     */
+    environment {
     remoteCommands =
-    """
-        container=pipline-app;
-        running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
+        """
+            container=pipline-app;
+            running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
-        if [ $running -eq 1 ]; then
-            echo "There is no app running, we are preparing it now..";
-            sudo docker pull muhanedyahya/pipline-v1-app:latest;
-            sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app;
-        else 
-            docker stop $container;
-            docker container prune -f;
-        fi
-    """
+            if [ $running -eq 1 ]; then
+                echo "There is no app running, we are preparing it now..";
+                sudo docker pull muhanedyahya/pipline-v1-app:latest;
+                sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app;
+            else 
+                docker stop $container;
+                docker container prune -f;
+            fi
+        """
     }
     stages {
         stage('Test') { 
