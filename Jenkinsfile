@@ -70,17 +70,6 @@
                 // '''
                 sshagent(credentials : ['ec2-pem']) {
                     sh '''
-                    container=prometheus;
-                    running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
-
-                    if [ $running -eq 1 ]; then
-                        echo "There is no prometheus, we are preparing it now..";
-                        echo "'$container' does not exist." 2> /dev/null ;
-                    else 
-                        echo "Prometheus is already running we will make a simple refresh";
-                        docker stop $container;
-                        docker container prune -f;
-                    fi
                         ssh -tt ec2-user@ec2-107-22-78-66.compute-1.amazonaws.com -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest &&sudo docker stop 2> /dev/null &&sudo docker container prune -f && sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
                     '''
                 }
