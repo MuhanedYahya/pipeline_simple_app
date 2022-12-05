@@ -1,21 +1,5 @@
  pipeline {
     agent any 
-    environment {
-    remoteCommands =
-        '''
-            container=pipline-app;
-            running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
-
-            if [ $running -eq 1 ]; then
-                echo "There is no app running, we are preparing it now..";
-                sudo docker pull muhanedyahya/pipline-v1-app:latest;
-                sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app;
-            else 
-                docker stop $container;
-                docker container prune -f;
-            fi
-        '''
-    }
     stages {
         stage('Test') { 
             steps {
@@ -85,8 +69,23 @@
                 //     fi
                 // '''
                 sshagent(credentials : ['ec2-pem']) {
-                    sh 'ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no $remoteCommands'
+                    sh '''ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no << ENDSSH
+                        container=pipline-app;
+                        running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
+
+                        if [ $running -eq 1 ]; then
+                            echo "There is no app running, we are preparing it now..";
+                            sudo docker pull muhanedyahya/pipline-v1-app:latest;
+                            sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app;
+                        else 
+                            docker stop $container;
+                            docker container prune -f;
+                        fi
+                        ENDSSH
+                    EOF'''
                 }
+
+                sh 'echo "Application deployed on aws ect instance."'
                 sh 'echo "you can view the app here http://ec2-174-129-185-223.compute-1.amazonaws.com"'
 
                 
