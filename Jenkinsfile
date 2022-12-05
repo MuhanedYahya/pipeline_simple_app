@@ -2,7 +2,7 @@
     agent any 
     environment {
     remoteCommands =
-        '
+        '''
             container=pipline-app;
             running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
@@ -14,7 +14,7 @@
                 docker stop $container;
                 docker container prune -f;
             fi
-        '
+        '''
     }
     stages {
         stage('Test') { 
