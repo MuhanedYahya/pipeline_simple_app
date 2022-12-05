@@ -70,12 +70,12 @@
                 // '''
                 sshagent(credentials : ['ec2-pem']) {
                     sh '''
-                        ssh -tt ec2-user@ec2-107-22-78-66.compute-1.amazonaws.com -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest &&sudo docker stop pipline-app 2> /dev/null;sudo docker container prune -f && sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
+                        ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no "sudo docker pull muhanedyahya/pipline-v1-app:latest &&sudo docker stop pipline-app 2> /dev/null;sudo docker container prune -f && sudo docker run --name pipline-app -d --rm -p 80:8080 muhanedyahya/pipline-v1-app"
                     '''
                 }
 
                 sh 'echo "Application deployed on aws ect instance."'
-                sh 'echo "you can view the app here http://ec2-107-22-78-66.compute-1.amazonaws.com"'
+                sh 'echo "you can view the app here http://ec2-174-129-185-223.compute-1.amazonaws.com"'
 
                 
                 
