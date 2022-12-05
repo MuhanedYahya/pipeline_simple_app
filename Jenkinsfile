@@ -68,17 +68,10 @@
                 //         echo "Error in deploying pipline1_project";
                 //     fi
                 // '''
-                command='
-                        
-                '
                 sshagent(credentials : ['ec2-pem']) {
                     sh 'ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no bash ~/script.sh'
                 }
 
-
-
-                
-                
             }
         }
         stage('Monitor') { 
