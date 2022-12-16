@@ -18,12 +18,13 @@ app.get('/', (req, res) => {
         height: 100%;
       }
       h1{
-        color: Blue;
+        color: #0054E0;
       }
     </style>
     <div>
       <h1>Wellcome To The</h1>
       <h1>Pipline App!</h1>
+      <h2>Test!</h2>
     </div>
     
   `);
