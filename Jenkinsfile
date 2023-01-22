@@ -32,19 +32,22 @@
                 // '''
                 sh '''#!/bin/bash
                     echo "building docker image...";
-                    if docker build . -t muhanedyahya/pipline-v1-app;then
-                        echo "image successfully created.";
-                        echo "pushing image to docker hub.....";
-                        if echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin;then
-                            if docker push muhanedyahya/pipline-v1-app;then
-                                echo "image pushed seccessfully.";
-                            else
-                                echo "error in pushing image!!! something went wrong";
-                            fi
-                        else 
-                            echo "cant login to docker hub!!!";
+                    if echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin;then
+                        if docker build . -t muhanedyahya/pipline-v1-app;then
+                            echo "image successfully created.";
+                            echo "pushing image to docker hub.....";
+                                if docker push muhanedyahya/pipline-v1-app;then
+                                    echo "image pushed seccessfully.";
+                                else
+                                    echo "error in pushing image!!! something went wrong";
+                                fi
+                        else
+                            sh 'echo cant build the image';
                         fi
-                    fi
+                    else 
+                        echo "cant login to docker hub!!!";
+                    fi    
+                    
                 '''  
             }
         }
