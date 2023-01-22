@@ -30,7 +30,6 @@
                 //         echo "image successfully created";
                 //     fi
                 // '''
-                credentials('docker')
                 sh '''#!/bin/bash
                     echo "building docker image...";
                     if docker build . -t muhanedyahya/pipline-v1-app;then
