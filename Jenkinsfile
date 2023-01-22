@@ -68,7 +68,7 @@
                     fi
 
                     echo "Running pipline1_project..."
-                    if  docker run -d --name pipline1_project --rm -p 9000:8080 pipline1_project;then
+                    if  docker run -d --name pipline1_project --rm -p 9000:8080 muhanedyahya/pipline-v1-app;then
                         echo "Deployed on http://localhost:9000";
                     else
                         echo "Error in deploying pipline1_project";
