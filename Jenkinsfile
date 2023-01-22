@@ -1,5 +1,8 @@
  pipeline {
     agent any 
+      environment {
+            DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        }
     stages {
         stage('Test') { 
             steps {
@@ -27,12 +30,13 @@
                 //         echo "image successfully created";
                 //     fi
                 // '''
+                credentials('docker')
                 sh '''#!/bin/bash
                     echo "building docker image...";
                     if docker build . -t muhanedyahya/pipline-v1-app;then
                         echo "image successfully created.";
                         echo "pushing image to docker hub.....";
-                        if docker login -u muhanedyahya -p 'Myahya123!root';then
+                        if echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin;then
                             if docker push muhanedyahya/pipline-v1-app;then
                                 echo "image pushed seccessfully.";
                             else
@@ -50,27 +54,27 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                // sh '''#!/bin/bash
-                //     container=pipline1_project;
-                //     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
+                sh '''#!/bin/bash
+                    container=pipline1_project;
+                    running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
-                //     if [ $running -eq 1 ]; then
-                //         echo "'$container' does not exist." 2> /dev/null;
-                //     else 
-                //         docker stop $container;	
-                //         docker container prune -f;
-                //     fi
+                    if [ $running -eq 1 ]; then
+                        echo "'$container' does not exist." 2> /dev/null;
+                    else 
+                        docker stop $container;	
+                        docker container prune -f;
+                    fi
 
-                //     echo "Running pipline1_project..."
-                //     if  docker run -d --name pipline1_project --rm -p 9000:8080 pipline1_project;then
-                //         echo "Deployed on http://localhost:9000";
-                //     else
-                //         echo "Error in deploying pipline1_project";
-                //     fi
-                // '''
-                sshagent(credentials : ['ec2-pem']) {
-                    sh 'ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no "sudo ./script.sh"'
-                }
+                    echo "Running pipline1_project..."
+                    if  docker run -d --name pipline1_project --rm -p 9000:8080 pipline1_project;then
+                        echo "Deployed on http://localhost:9000";
+                    else
+                        echo "Error in deploying pipline1_project";
+                    fi
+                '''
+                // sshagent(credentials : ['ec2-pem']) {
+                //     sh 'ssh -tt ec2-user@ec2-174-129-185-223.compute-1.amazonaws.com -o StrictHostKeyChecking=no "sudo ./script.sh"'
+                // }
 
             }
         }
