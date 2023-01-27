@@ -9,7 +9,7 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                sh '''#!/bin/bash
+                sh '''#!/bin/bash -e
                     echo "installing jest framework...";
                     if npm install --save-dev jest;then
                         echo "running jest testing...";
@@ -30,7 +30,7 @@
                 //         echo "image successfully created";
                 //     fi
                 // '''
-                sh '''#!/bin/bash
+                sh '''#!/bin/bash -e
                     echo "building docker image...";
                     if echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin;then
                         if docker build . -t muhanedyahya/pipline-v1-app;then
@@ -56,7 +56,7 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                sh '''#!/bin/bash
+                sh '''#!/bin/bash -e
                     container=pipline1_project;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
@@ -85,7 +85,7 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                sh '''#!/bin/bash
+                sh '''#!/bin/bash -e
                     container=prometheus;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
