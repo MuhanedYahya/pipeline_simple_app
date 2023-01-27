@@ -24,13 +24,7 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                // sh '''#!/bin/bash
-                //     echo "building docker image...";
-                //     if docker build . -t pipline1_project;then
-                //         echo "image successfully created";
-                //     fi
-                // '''
-                sh '''#!/bin/bash -e
+                sh '''#!/bin/bash 
                     echo "building docker image...";
                     if echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin;then
                         if docker build . -t muhanedyahya/pipline-v1-app;then
@@ -56,7 +50,7 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                sh '''#!/bin/bash -e
+                sh '''#!/bin/bash 
                     container=pipline1_project;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
