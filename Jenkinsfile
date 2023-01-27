@@ -13,8 +13,7 @@
                     echo "installing jest framework...";
                     if npm install --save-dev jest;then
                         echo "running jest testing...";
-                        npm test;
-                        
+                        npm test;                      
                     fi
                 ''' 
             }
@@ -33,13 +32,13 @@
                                 if docker push muhanedyahya/pipline-v1-app;then
                                     echo "image pushed seccessfully.";
                                 else
-                                    echo "error in pushing image!!! something went wrong";
+                                    echo "error in pushing image!!! something went wrong";exit 1;
                                 fi
                         else
-                            sh 'echo cant build the image';
+                            sh 'echo cant build the image';exit 1;
                         fi
                     else 
-                        echo "cant login to docker hub!!!";
+                        echo "cant login to docker hub!!!";exit 1;
                     fi    
                     
                 '''  
@@ -65,7 +64,7 @@
                     if  docker run -d --name pipline1_project --rm -p 9000:8080 muhanedyahya/pipline-v1-app;then
                         echo "Deployed on http://localhost:9000";
                     else
-                        echo "Error in deploying pipline1_project";
+                        echo "Error in deploying pipline1_project";exit 1;
                     fi
                 '''
                 // sshagent(credentials : ['ec2-pem']) {
@@ -79,7 +78,7 @@
                 script {
                     last_started = env.STAGE_NAME
                 }
-                sh '''#!/bin/bash -e
+                sh '''#!/bin/bash
                     container=prometheus;
                     running=$( docker container inspect -f '{{.State.Running}}' $container 2>/dev/null);
 
@@ -119,7 +118,7 @@
                                 echo "Error in deploying Grafana. check your monitor stage!";
                             fi
                     else
-                        echo "Error in deploying prometheus also Grafana will not deployed. check your monitor stage!";
+                        echo "Error in deploying prometheus also Grafana will not deployed. check your monitor stage!";exit 1;
                     fi
                 ''' 
             }
